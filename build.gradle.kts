@@ -24,6 +24,9 @@ fun loadEnvironment(): Map<String, String> {
 }
 val env = loadEnvironment()
 
+println("Loaded DB_URL: ${env["DB_URL"]}")
+println("Loaded DB_USER: ${env["DB_USER"]}")
+
 plugins {
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
