@@ -1,0 +1,32 @@
+@startuml
+actor User
+participant "AuthController" as Controller
+participant "AuthService" as Service
+participant "UserRepository" as Repository
+participant "HashEncoder" as Hasher
+database "Postgres DB" as DB
+
+User -> Controller: POST /auth/register(email, password)
+Controller -> Service: register(email, password)
+Service -> Service: validatePasswordComplexity(password)
+alt password invalid
+    Service -> Controller: throw 400 Bad Request
+    Controller -> User: return error
+else
+    Service -> Repository: check if email exists
+    alt email exists
+        Repository -> Service: return user
+        Service -> Controller: throw 409 Conflict
+        Controller -> User: return error
+    else
+        Service -> Hasher: hash(password)
+        Hasher -> Service: hashedPassword
+        Service -> Repository: insert User(email, hashedPassword)
+        Repository -> DB: INSERT INTO users
+        DB --> Repository: user inserted
+        Repository --> Service: return inserted user
+        Service --> Controller: return success
+        Controller --> User: 201 Created
+    end
+end
+@enduml

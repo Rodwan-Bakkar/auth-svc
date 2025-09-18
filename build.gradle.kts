@@ -1,8 +1,21 @@
+import org.springframework.boot.gradle.tasks.run.BootRun
+
+// Load environment variables
+val env: Map<String, String> = file(".env").readLines()
+	.mapNotNull { line ->
+		val trimmed = line.trim()
+		if (trimmed.isEmpty() || trimmed.startsWith("#")) return@mapNotNull null
+		val (key, value) = trimmed.split("=", limit = 2)
+		key to value
+	}.toMap()
+
 plugins {
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
 	id("org.springframework.boot") version "3.5.5"
 	id("io.spring.dependency-management") version "1.1.7"
+	id("org.flywaydb.flyway") version "11.12.0"
+	id("nu.studer.jooq") version "10.1.1"
 }
 
 group = "com"
@@ -19,13 +32,51 @@ repositories {
 	mavenCentral()
 }
 
+// Explicitly add the necessary dependencies to the buildscript classpath.
+// This ensures they are available to the Flyway plugin during its configuration phase.
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.flywaydb:flyway-database-postgresql:11.12.0")
+	}
+}
+
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-jooq")
+
+	implementation("org.springframework.boot:spring-boot-starter-security:4.0.0-M2")
+
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+	implementation("org.flywaydb:flyway-core:11.12.0")
+	implementation("org.flywaydb:flyway-database-postgresql:11.12.0")
+
+	runtimeOnly("org.postgresql:postgresql:42.7.7")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	implementation("org.jooq:jooq:3.20.7")
+
+	jooqGenerator("org.postgresql:postgresql:42.7.7")
+	jooqGenerator("org.jooq:jooq:3.20.7")
+	jooqGenerator("org.jooq:jooq-meta:3.20.7")
+	jooqGenerator("org.jooq:jooq-codegen:3.20.7")
+
+	compileOnly("jakarta.servlet:jakarta.servlet-api:6.1.0")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+
+	implementation("io.jsonwebtoken:jjwt-api:0.13.0")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
+
+	implementation("io.github.cdimascio:java-dotenv:5.2.2")
 }
 
 kotlin {
@@ -34,6 +85,53 @@ kotlin {
 	}
 }
 
+flyway {
+	url = env["DB_URL"]
+	user = env["DB_USER"]
+	password = env["DB_PASSWORD"]
+	baselineOnMigrate = true
+	locations = arrayOf("filesystem:src/main/resources/db/migration")
+}
+
+jooq {
+	version.set("3.20.7")
+	configurations {
+		create("main") {
+			jooqConfiguration.apply {
+				logging = org.jooq.meta.jaxb.Logging.WARN
+				jdbc.apply {
+					driver = "org.postgresql.Driver"
+					url = env["DB_URL"]
+					user = env["DB_USER"]
+					password = env["DB_PASSWORD"]
+				}
+				generator.apply {
+					name = "org.jooq.codegen.KotlinGenerator"
+					database.apply {
+						inputSchema = "public"
+					}
+					target.apply {
+						packageName = "com.auth.jooq.generated"
+						directory = layout.buildDirectory.dir("generated-src/jooq").get().asFile.path
+					}
+				}
+			}
+		}
+	}
+}
+
+tasks.named("generateJooq") {
+	dependsOn("flywayMigrate")
+}
+sourceSets["main"].kotlin.srcDir(layout.buildDirectory.dir("generated-src/jooq").get().asFile.path)
+
+//// Configure the bootRun task to include .env properties as environment variables
+tasks.withType<BootRun> {
+	environment(env)
+}
+
+// Configure the test task to include .env properties as environment variables
 tasks.withType<Test> {
+	environment(env)
 	useJUnitPlatform()
 }
