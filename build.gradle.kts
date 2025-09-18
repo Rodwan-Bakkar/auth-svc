@@ -1,13 +1,28 @@
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-// Load environment variables
-val env: Map<String, String> = file(".env").readLines()
-	.mapNotNull { line ->
-		val trimmed = line.trim()
-		if (trimmed.isEmpty() || trimmed.startsWith("#")) return@mapNotNull null
-		val (key, value) = trimmed.split("=", limit = 2)
-		key to value
-	}.toMap()
+fun loadEnvironment(): Map<String, String> {
+	val envFile = File(".env")
+
+	return if (envFile.exists()) {
+		// Load from .env file for local development.
+		envFile.readLines()
+			.mapNotNull { line ->
+				val trimmed = line.trim()
+				// Ignore empty lines and comments
+				if (trimmed.isEmpty() || trimmed.startsWith("#")) {
+					null
+				} else {
+					// Split the key and value
+					val (key, value) = trimmed.split("=", limit = 2)
+					key to value
+				}
+			}.toMap()
+	} else {
+		// If the .env file doesn't exist, use system environment variables.
+		System.getenv()
+	}
+}
+val env = loadEnvironment()
 
 plugins {
 	kotlin("jvm") version "1.9.25"
