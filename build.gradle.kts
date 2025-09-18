@@ -24,6 +24,7 @@ fun loadEnvironment(): Map<String, String> {
 }
 val env = loadEnvironment()
 
+println("Loaded variables: $env")
 println("Loaded DB_URL: ${env["DB_URL"]}")
 println("Loaded DB_USER: ${env["DB_USER"]}")
 
