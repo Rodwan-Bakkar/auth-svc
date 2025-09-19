@@ -13,10 +13,7 @@ COPY settings.gradle.kts .
 # Copy source code
 COPY src src
 
-# Just print .env file content for debugging
-RUN --mount=type=secret,id=_env,dst=/etc/secrets/.env cat /etc/secrets/.env
-
-# Build the application inside the container
+# Build the application, for production: read secret file and inject it into gradle for build time secret variables
 RUN --mount=type=secret,id=_env,dst=/etc/secrets/.env ./gradlew clean bootJar --no-daemon
 
 # Expose the port your app runs on
