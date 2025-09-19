@@ -31,6 +31,8 @@ println("Loaded variables: $env")
 println("Loaded DB_URL: ${env["DB_URL"]}")
 println("Loaded DB_USER: ${env["DB_USER"]}")
 
+apply(plugin = "org.flywaydb.flyway")
+
 plugins {
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
@@ -61,7 +63,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-//		classpath("org.flywaydb:flyway-gradle-plugin:11.12.0")
+		classpath("org.flywaydb:flyway-gradle-plugin:11.12.0")
 		classpath("org.flywaydb:flyway-database-postgresql:11.12.0")
 	}
 }
@@ -76,7 +78,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
-//	implementation("org.flywaydb:flyway-core:11.12.0")
+	implementation("org.flywaydb:flyway-core:11.12.0")
 	implementation("org.flywaydb:flyway-database-postgresql:11.12.0")
 
 	runtimeOnly("org.postgresql:postgresql:42.7.7")
