@@ -3,8 +3,8 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 fun loadEnvironment(): Map<String, String> {
 	// For dev env
 	val primary = File(".env")
-	// For production (Render)
-	val envFile = if (primary.exists()) primary else File("file:/etc/secrets/.env")
+	// For prod env (Render)
+	val envFile = if (primary.exists()) primary else File("/etc/secrets/.env")
 
 	return if (envFile.exists()) {
 		// Load from .env file for local development.
