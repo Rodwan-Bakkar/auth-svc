@@ -13,8 +13,8 @@ COPY settings.gradle.kts .
 # Copy source code
 COPY src src
 
-# Mount secret file in production
-RUN --mount=type=secret,id=.env,dst=/etc/secrets/.env
+# # Mount secret file in production
+# RUN --mount=type=secret,id=.env,dst=/etc/secrets/.env
 
 # Build the application inside the container
 RUN ./gradlew clean bootJar --no-daemon
