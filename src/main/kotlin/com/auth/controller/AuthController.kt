@@ -48,4 +48,11 @@ class AuthController(private val authService: AuthService) {
     ): AuthService.TokenPair {
         return authService.login(body.email, body.password)
     }
+
+    @PostMapping("/refresh")
+    fun refresh(
+        @RequestBody body: RefreshRequest
+    ): AuthService.TokenPair {
+        return authService.refresh(body.refreshToken)
+    }
 }
