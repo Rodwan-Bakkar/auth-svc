@@ -4,7 +4,6 @@ import com.auth.domain.User
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import com.auth.jooq.generated.tables.references.USERS
-import java.util.*
 
 @Repository
 class UserRepository(private val dsl: DSLContext) {
@@ -15,21 +14,24 @@ class UserRepository(private val dsl: DSLContext) {
             .fetchOne()
             ?.map { record ->
                 User(
-                    id = record[USERS.ID],
-                    email = record[USERS.EMAIL].toString(),
-                    hashedPassword = record[USERS.HASHED_PASSWORD].toString(),
+                    id = record[USERS.ID]!!,
+                    email = record[USERS.EMAIL]!!,
+                    hashedPassword = record[USERS.HASHED_PASSWORD]!!,
+                    createdAt = record[USERS.CREATED_AT]!!.toInstant(),
                 )
             }
 
     fun save(user: User): User {
-        val userId = user.id ?: UUID.randomUUID()
 
-        dsl.insertInto(USERS)
-            .set(USERS.ID, userId)
+        val record = dsl.insertInto(USERS)
+            .set(USERS.ID, user.id)
             .set(USERS.EMAIL, user.email)
             .set(USERS.HASHED_PASSWORD, user.hashedPassword)
-            .execute()
+            .returning(USERS.CREATED_AT) // return generated column
+            .fetchOne()!!
 
-        return user.copy(id = userId)
+        return user.copy(
+            createdAt = record[USERS.CREATED_AT]!!.toInstant()
+        )
     }
 }

@@ -1,13 +1,15 @@
 package com.auth.controller
 
 import com.auth.service.AuthService
-import org.springframework.web.bind.annotation.RestController
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Pattern
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RequestBody
 
 @RestController
 @RequestMapping("/auth")
@@ -28,9 +30,22 @@ class AuthController(private val authService: AuthService) {
     )
 
     @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
     fun register(
         @Valid @RequestBody body: AuthRequest
-    ) {
-        authService.register(body.email, body.password)
+    ): UserResponse {
+        val newUser = authService.register(body.email, body.password)
+        return UserResponse(
+            id = newUser.id,
+            email = newUser.email,
+            createdAt = newUser.createdAt,
+        )
+    }
+
+    @PostMapping("/login")
+    fun login(
+        @RequestBody body: AuthRequest
+    ): AuthService.TokenPair {
+        return authService.login(body.email, body.password)
     }
 }

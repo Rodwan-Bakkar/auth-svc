@@ -3,9 +3,10 @@ package com.auth.domain
 import java.time.Instant
 import java.util.UUID
 
-data class User(
+data class RefreshToken(
     val id: UUID = UUID.randomUUID(),
-    val email: String,
-    val hashedPassword: String,
+    val userId: UUID,
+    val expiresAt: Instant,
+    val hashedToken: String,
     val createdAt: Instant = Instant.now(),
 )
