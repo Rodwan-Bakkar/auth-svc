@@ -21,8 +21,12 @@ class SecurityConfig(
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/")
-                    .permitAll()
+                    .requestMatchers(
+                        "/",
+                        "/v3/api-docs/**", // Allow access to OpenAPI docs
+                        "/swagger-ui/**", // Allow access to Swagger UI
+                        "/swagger-ui.html",
+                    ).permitAll()
                     .requestMatchers("/auth/**")
                     .permitAll()
                     .dispatcherTypeMatchers(

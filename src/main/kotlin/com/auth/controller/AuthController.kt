@@ -1,6 +1,7 @@
 package com.auth.controller
 
 import com.auth.service.AuthService
+import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Pattern
@@ -32,6 +33,7 @@ class AuthController(
         val refreshToken: String,
     )
 
+    @Operation(summary = "Register a new user", description = "Register a new user")
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     fun register(
@@ -45,11 +47,13 @@ class AuthController(
         )
     }
 
+    @Operation(summary = "Login with credentials", description = "Login with email and password")
     @PostMapping("/login")
     fun login(
         @RequestBody body: AuthRequest,
     ): AuthService.TokenPair = authService.login(body.email, body.password)
 
+    @Operation(summary = "Refresh tokens", description = "Refresh both access and refresh tokens via refresh token")
     @PostMapping("/refresh")
     fun refresh(
         @RequestBody body: RefreshRequest,
