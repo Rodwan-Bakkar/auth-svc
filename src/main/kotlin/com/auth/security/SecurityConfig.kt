@@ -12,12 +12,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 class SecurityConfig(
-    private val jwtAuthFilter: JwtAuthFilter
+    private val jwtAuthFilter: JwtAuthFilter,
 ) {
-
     @Bean
-    fun filterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
-        return httpSecurity
+    fun filterChain(httpSecurity: HttpSecurity): SecurityFilterChain =
+        httpSecurity
             .csrf { csrf -> csrf.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { auth ->
@@ -28,17 +27,13 @@ class SecurityConfig(
                     .permitAll()
                     .dispatcherTypeMatchers(
                         DispatcherType.ERROR,
-                        DispatcherType.FORWARD
-                    )
-                    .permitAll()
+                        DispatcherType.FORWARD,
+                    ).permitAll()
                     .anyRequest()
                     .authenticated()
-            }
-            .exceptionHandling { configurer ->
+            }.exceptionHandling { configurer ->
                 configurer
                     .authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-            }
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
+            }.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
             .build()
-    }
 }

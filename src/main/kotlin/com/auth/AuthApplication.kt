@@ -8,12 +8,14 @@ import org.springframework.boot.runApplication
 class AuthApplication
 
 fun main(args: Array<String>) {
-	// Load environment variables
-	Dotenv.configure()
-		.ignoreIfMissing()
-		.load()
-		.entries().forEach { entry ->
-			System.setProperty(entry.key, entry.value)
-		}
-	runApplication<AuthApplication>(*args)
+    // Load environment variables
+    Dotenv
+        .configure()
+        .ignoreIfMissing()
+        .load()
+        .entries()
+        .forEach { entry ->
+            System.setProperty(entry.key, entry.value)
+        }
+    runApplication<AuthApplication>(*args)
 }

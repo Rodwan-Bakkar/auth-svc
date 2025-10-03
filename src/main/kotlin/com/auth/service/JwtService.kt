@@ -12,9 +12,8 @@ import java.util.Date
 
 @Service
 class JwtService(
-    @Value("\${jwt.secret}") private val jwtSecret: String
+    @Value("\${jwt.secret}") private val jwtSecret: String,
 ) {
-
     private val secretKey = Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecret))
     private val accessTokenValidityMs = 15L * 60L * 1000L // 15 minutes
     val refreshTokenValidityMs = 30L * 24 * 60 * 60 * 1000L // 30 days
@@ -22,11 +21,12 @@ class JwtService(
     private fun generateToken(
         userId: String,
         type: String,
-        expiry: Long
+        expiry: Long,
     ): String {
         val now = Date()
         val expiryDate = Date(now.time + expiry)
-        return Jwts.builder()
+        return Jwts
+            .builder()
             .subject(userId)
             .claim("type", type)
             .issuedAt(now)
@@ -35,13 +35,9 @@ class JwtService(
             .compact()
     }
 
-    fun generateAccessToken(userId: String): String {
-        return generateToken(userId, "access", accessTokenValidityMs)
-    }
+    fun generateAccessToken(userId: String): String = generateToken(userId, "access", accessTokenValidityMs)
 
-    fun generateRefreshToken(userId: String): String {
-        return generateToken(userId, "refresh", refreshTokenValidityMs)
-    }
+    fun generateRefreshToken(userId: String): String = generateToken(userId, "refresh", refreshTokenValidityMs)
 
     fun validateAccessToken(token: String): Boolean {
         val claims = parseAllClaims(token) ?: return false
@@ -56,24 +52,29 @@ class JwtService(
     }
 
     fun getUserIdFromToken(token: String): String {
-        val claims = parseAllClaims(token) ?: throw ResponseStatusException(
-            HttpStatusCode.valueOf(401),
-            "Invalid token."
-        )
+        val claims =
+            parseAllClaims(token) ?: throw ResponseStatusException(
+                HttpStatusCode.valueOf(401),
+                "Invalid token.",
+            )
         return claims.subject
     }
 
     private fun parseAllClaims(token: String): Claims? {
-        val rawToken = if(token.startsWith("Bearer ")) {
-            token.removePrefix("Bearer ")
-        } else token
+        val rawToken =
+            if (token.startsWith("Bearer ")) {
+                token.removePrefix("Bearer ")
+            } else {
+                token
+            }
         return try {
-            Jwts.parser()
+            Jwts
+                .parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(rawToken)
                 .payload
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             null
         }
     }

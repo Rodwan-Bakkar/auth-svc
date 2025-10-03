@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ResponseStatusException
 import java.security.MessageDigest
 import java.time.Instant
-import java.util.UUID
 import java.util.Base64
+import java.util.UUID
 
 @Service
 class AuthService(
@@ -24,10 +24,13 @@ class AuthService(
 ) {
     data class TokenPair(
         val accessToken: String,
-        val refreshToken: String
+        val refreshToken: String,
     )
 
-    fun register(email: String, password: String): User {
+    fun register(
+        email: String,
+        password: String,
+    ): User {
         val user = userRepository.findByEmail(email.trim())
         require(user == null) {
             throw ResponseStatusException(HttpStatus.CONFLICT, "A user with that email already exists.")
@@ -35,16 +38,20 @@ class AuthService(
         return userRepository.save(
             User(
                 email = email,
-                hashedPassword = hashEncoder.encode(password)
-            )
+                hashedPassword = hashEncoder.encode(password),
+            ),
         )
     }
 
-    fun login(email: String, password: String): TokenPair {
-        val user = userRepository.findByEmail(email)
-            ?: throw BadCredentialsException("Invalid credentials.")
+    fun login(
+        email: String,
+        password: String,
+    ): TokenPair {
+        val user =
+            userRepository.findByEmail(email)
+                ?: throw BadCredentialsException("Invalid credentials.")
 
-        if(!hashEncoder.matches(password, user.hashedPassword)) {
+        if (!hashEncoder.matches(password, user.hashedPassword)) {
             throw BadCredentialsException("Invalid credentials.")
         }
 
@@ -55,25 +62,26 @@ class AuthService(
 
         return TokenPair(
             accessToken = newAccessToken,
-            refreshToken = newRefreshToken
+            refreshToken = newRefreshToken,
         )
     }
 
     @Transactional
     fun refresh(refreshToken: String): TokenPair {
-        if(!jwtService.validateRefreshToken(refreshToken)) {
+        if (!jwtService.validateRefreshToken(refreshToken)) {
             throw ResponseStatusException(HttpStatusCode.valueOf(401), "Invalid refresh token.")
         }
 
         val userId = jwtService.getUserIdFromToken(refreshToken)
-        val user = userRepository.findById(UUID.fromString(userId)) ?: throw
-            ResponseStatusException(HttpStatusCode.valueOf(401), "Invalid refresh token.")
+        val user =
+            userRepository.findById(UUID.fromString(userId)) ?: throw
+                ResponseStatusException(HttpStatusCode.valueOf(401), "Invalid refresh token.")
 
         val hashedRefreshToken = hashToken(refreshToken)
         refreshTokenRepository.findByUserIdAndHashedToken(user.id, hashedRefreshToken)
             ?: throw ResponseStatusException(
                 HttpStatusCode.valueOf(401),
-                "Refresh token not recognized (maybe used or expired?)"
+                "Refresh token not recognized (maybe used or expired?)",
             )
 
         refreshTokenRepository.deleteByUserIdAndHashedToken(user.id, hashedRefreshToken)
@@ -85,11 +93,14 @@ class AuthService(
 
         return TokenPair(
             accessToken = newAccessToken,
-            refreshToken = newRefreshToken
+            refreshToken = newRefreshToken,
         )
     }
 
-    private fun storeRefreshToken(userId: UUID, rawRefreshToken: String) {
+    private fun storeRefreshToken(
+        userId: UUID,
+        rawRefreshToken: String,
+    ) {
         val hashed = hashToken(rawRefreshToken)
         val expiryMs = jwtService.refreshTokenValidityMs
         val expiresAt = Instant.now().plusMillis(expiryMs)
@@ -98,8 +109,8 @@ class AuthService(
             RefreshToken(
                 userId = userId,
                 expiresAt = expiresAt,
-                hashedToken = hashed
-            )
+                hashedToken = hashed,
+            ),
         )
     }
 
@@ -108,5 +119,4 @@ class AuthService(
         val hashBytes = digest.digest(token.encodeToByteArray())
         return Base64.getEncoder().encodeToString(hashBytes)
     }
-
 }

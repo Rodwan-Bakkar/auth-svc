@@ -8,10 +8,15 @@ import java.time.ZoneOffset
 import java.util.UUID
 
 @Repository
-class RefreshTokenRepository(private val dsl: DSLContext) {
-
-    fun findByUserIdAndHashedToken(userId: UUID, hashedRefreshToken: String): RefreshToken? =
-        dsl.selectFrom(REFRESH_TOKENS)
+class RefreshTokenRepository(
+    private val dsl: DSLContext,
+) {
+    fun findByUserIdAndHashedToken(
+        userId: UUID,
+        hashedRefreshToken: String,
+    ): RefreshToken? =
+        dsl
+            .selectFrom(REFRESH_TOKENS)
             .where(REFRESH_TOKENS.USER_ID.eq(userId))
             .and(REFRESH_TOKENS.HASHED_TOKEN.eq(hashedRefreshToken))
             .fetchOne()
@@ -26,22 +31,27 @@ class RefreshTokenRepository(private val dsl: DSLContext) {
             }
 
     fun save(refreshToken: RefreshToken): RefreshToken {
-
-        val record = dsl.insertInto(REFRESH_TOKENS)
-            .set(REFRESH_TOKENS.ID, refreshToken.id)
-            .set(REFRESH_TOKENS.USER_ID, refreshToken.userId)
-            .set(REFRESH_TOKENS.EXPIRES_AT, refreshToken.expiresAt.atOffset(ZoneOffset.UTC))
-            .set(REFRESH_TOKENS.HASHED_TOKEN, refreshToken.hashedToken)
-            .returning(REFRESH_TOKENS.CREATED_AT) // return generated column
-            .fetchOne()!!
+        val record =
+            dsl
+                .insertInto(REFRESH_TOKENS)
+                .set(REFRESH_TOKENS.ID, refreshToken.id)
+                .set(REFRESH_TOKENS.USER_ID, refreshToken.userId)
+                .set(REFRESH_TOKENS.EXPIRES_AT, refreshToken.expiresAt.atOffset(ZoneOffset.UTC))
+                .set(REFRESH_TOKENS.HASHED_TOKEN, refreshToken.hashedToken)
+                .returning(REFRESH_TOKENS.CREATED_AT) // return generated column
+                .fetchOne()!!
 
         return refreshToken.copy(
-            createdAt = record[REFRESH_TOKENS.CREATED_AT]!!.toInstant()
+            createdAt = record[REFRESH_TOKENS.CREATED_AT]!!.toInstant(),
         )
     }
 
-    fun deleteByUserIdAndHashedToken(userId: UUID, hashedRefreshToken: String) {
-        dsl.deleteFrom(REFRESH_TOKENS)
+    fun deleteByUserIdAndHashedToken(
+        userId: UUID,
+        hashedRefreshToken: String,
+    ) {
+        dsl
+            .deleteFrom(REFRESH_TOKENS)
             .where(REFRESH_TOKENS.USER_ID.eq(userId))
             .and(REFRESH_TOKENS.HASHED_TOKEN.eq(hashedRefreshToken))
             .execute()
