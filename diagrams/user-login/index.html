@@ -1,0 +1,422 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../user-registration/">
+      
+      
+        <link rel="next" href="../refresh-token/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Login Flow - Auth Service Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monaco:300,300i,400,400i,700,700i%7CMonaco:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Monaco";--md-code-font:"Monaco"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/mkdocs_puml/puml.css">
+    
+      <link rel="stylesheet" href="../../assets/mkdocs_puml/interaction.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#login-flow" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Auth Service Docs" class="md-header__button md-logo" aria-label="Auth Service Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Auth Service Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Login Flow
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Auth Service Docs" class="md-nav__button md-logo" aria-label="Auth Service Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Auth Service Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Diagrams
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Diagrams
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-registration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Register Flow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Login Flow
+    
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../refresh-token/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Refresh Token Flow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="login-flow">Login Flow</h1>
+<p>This diagram shows the login sequence:</p>
+<div class='puml-container'><div class="puml light" style=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" data-diagram-type="SEQUENCE" height="1094px" preserveAspectRatio="xMidYMid meet" style="width:1447px;height:1094px;background:#FFFFFF;" version="1.1" viewBox="0 0 1447 1094" width="1447px" zoomAndPan="magnify" class="diagram"><defs/><g><rect fill="none" height="782.0625" style="stroke:#000000;stroke-width:1.5;" width="1430.1963" x="10" y="214.8281"/><rect fill="none" height="532.1953" style="stroke:#000000;stroke-width:1.5;" width="1410.1963" x="20" y="457.6953"/><g><title>Frontend</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="60.5547" y="81.2969"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="64" x2="64" y1="81.2969" y2="1013.8906"/></g><g><title>AuthController</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="309.1284" y="81.2969"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="312.1357" x2="312.1357" y1="81.2969" y2="1013.8906"/></g><g><title>AuthService</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="585.3589" y="81.2969"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="589.082" x2="589.082" y1="81.2969" y2="1013.8906"/></g><g><title>UserRepository</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="766.3149" y="81.2969"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="769.8237" x2="769.8237" y1="81.2969" y2="1013.8906"/></g><g><title>HashEncoder</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="890.0615" y="81.2969"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="893.8062" x2="893.8062" y1="81.2969" y2="1013.8906"/></g><g><title>JwtService</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="996.7217" y="81.2969"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="1000.3169" x2="1000.3169" y1="81.2969" y2="1013.8906"/></g><g><title>RefreshTokenRepository</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="1142.9209" y="81.2969"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="1146.1265" x2="1146.1265" y1="81.2969" y2="1013.8906"/></g><g><title>PostgreSQL</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="1372.8198" y="81.2969"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="1376.4434" x2="1376.4434" y1="81.2969" y2="1013.8906"/></g><g class="participant participant-head" data-participant="FE"><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63.1094" x="30" y="77.9951">Frontend</text><ellipse cx="64.5547" cy="13.5" fill="#E2E2F0" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><path d="M64.5547,21.5 L64.5547,48.5 M51.5547,29.5 L77.5547,29.5 M64.5547,48.5 L51.5547,63.5 M64.5547,48.5 L77.5547,63.5" fill="none" style="stroke:#181818;stroke-width:0.5;"/></g><g class="participant participant-tail" data-participant="FE"><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63.1094" x="30" y="1025.8857">Frontend</text><ellipse cx="64.5547" cy="1037.6875" fill="#E2E2F0" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><path d="M64.5547,1045.6875 L64.5547,1072.6875 M51.5547,1053.6875 L77.5547,1053.6875 M64.5547,1072.6875 L51.5547,1087.6875 M64.5547,1072.6875 L77.5547,1087.6875" fill="none" style="stroke:#181818;stroke-width:0.5;"/></g><g class="participant participant-head" data-participant="AC"><rect fill="#E2E2F0" height="30.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="115.9854" x="255.1357" y="50"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="101.9854" x="262.1357" y="69.9951">AuthController</text></g><g class="participant participant-tail" data-participant="AC"><rect fill="#E2E2F0" height="30.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="115.9854" x="255.1357" y="1012.8906"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="101.9854" x="262.1357" y="1032.8857">AuthController</text></g><g class="participant participant-head" data-participant="AS"><rect fill="#E2E2F0" height="30.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="98.5537" x="540.082" y="50"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84.5537" x="547.082" y="69.9951">AuthService</text></g><g class="participant participant-tail" data-participant="AS"><rect fill="#E2E2F0" height="30.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="98.5537" x="540.082" y="1012.8906"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84.5537" x="547.082" y="1032.8857">AuthService</text></g><g class="participant participant-head" data-participant="UR"><rect fill="#E2E2F0" height="30.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="120.9824" x="709.8237" y="50"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106.9824" x="716.8237" y="69.9951">UserRepository</text></g><g class="participant participant-tail" data-participant="UR"><rect fill="#E2E2F0" height="30.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="120.9824" x="709.8237" y="1012.8906"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106.9824" x="716.8237" y="1032.8857">UserRepository</text></g><g class="participant participant-head" data-participant="HE"><rect fill="#E2E2F0" height="30.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="106.5107" x="840.8062" y="50"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="92.5107" x="847.8062" y="69.9951">HashEncoder</text></g><g class="participant participant-tail" data-participant="HE"><rect fill="#E2E2F0" height="30.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="106.5107" x="840.8062" y="1012.8906"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="92.5107" x="847.8062" y="1032.8857">HashEncoder</text></g><g class="participant participant-head" data-participant="JS"><rect fill="#E2E2F0" height="30.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="86.8096" x="957.3169" y="50"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72.8096" x="964.3169" y="69.9951">JwtService</text></g><g class="participant participant-tail" data-participant="JS"><rect fill="#E2E2F0" height="30.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="86.8096" x="957.3169" y="1012.8906"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72.8096" x="964.3169" y="1032.8857">JwtService</text></g><g class="participant participant-head" data-participant="RTR"><rect fill="#E2E2F0" height="30.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="185.5889" x="1054.1265" y="50"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="171.5889" x="1061.1265" y="69.9951">RefreshTokenRepository</text></g><g class="participant participant-tail" data-participant="RTR"><rect fill="#E2E2F0" height="30.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="185.5889" x="1054.1265" y="1012.8906"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="171.5889" x="1061.1265" y="1032.8857">RefreshTokenRepository</text></g><g class="participant participant-head" data-participant="DB"><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="80.7529" x="1333.4434" y="77.9951">PostgreSQL</text><path d="M1358.8198,29 C1358.8198,19 1376.8198,19 1376.8198,19 C1376.8198,19 1394.8198,19 1394.8198,29 L1394.8198,55 C1394.8198,65 1376.8198,65 1376.8198,65 C1376.8198,65 1358.8198,65 1358.8198,55 L1358.8198,29" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;"/><path d="M1358.8198,29 C1358.8198,39 1376.8198,39 1376.8198,39 C1376.8198,39 1394.8198,39 1394.8198,29" fill="none" style="stroke:#181818;stroke-width:0.5;"/></g><g class="participant participant-tail" data-participant="DB"><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="80.7529" x="1333.4434" y="1025.8857">PostgreSQL</text><path d="M1358.8198,1039.1875 C1358.8198,1029.1875 1376.8198,1029.1875 1376.8198,1029.1875 C1376.8198,1029.1875 1394.8198,1029.1875 1394.8198,1039.1875 L1394.8198,1065.1875 C1394.8198,1075.1875 1376.8198,1075.1875 1376.8198,1075.1875 C1376.8198,1075.1875 1358.8198,1075.1875 1358.8198,1065.1875 L1358.8198,1039.1875" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;"/><path d="M1358.8198,1039.1875 C1358.8198,1049.1875 1376.8198,1049.1875 1376.8198,1049.1875 C1376.8198,1049.1875 1394.8198,1049.1875 1394.8198,1039.1875" fill="none" style="stroke:#181818;stroke-width:0.5;"/></g><g class="message" data-participant-1="FE" data-participant-2="AC"><polygon fill="#181818" points="301.1284,108.4297,311.1284,112.4297,301.1284,116.4297,305.1284,112.4297" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;" x1="64.5547" x2="307.1284" y1="112.4297" y2="112.4297"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="224.5737" x="71.5547" y="107.3638">POST /auth/login(email, password)</text></g><g class="message" data-participant-1="AC" data-participant-2="AS"><polygon fill="#181818" points="577.3589,137.5625,587.3589,141.5625,577.3589,145.5625,581.3589,141.5625" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;" x1="313.1284" x2="583.3589" y1="141.5625" y2="141.5625"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="147.875" x="320.1284" y="136.4966">login(email, password)</text></g><g class="message" data-participant-1="AS" data-participant-2="UR"><polygon fill="#181818" points="758.3149,166.6953,768.3149,170.6953,758.3149,174.6953,762.3149,170.6953" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;" x1="589.3589" x2="764.3149" y1="170.6953" y2="170.6953"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="123.354" x="596.3589" y="165.6294">findByEmail(email)</text></g><g class="message" data-participant-1="UR" data-participant-2="DB"><polygon fill="#181818" points="1364.8198,195.8281,1374.8198,199.8281,1364.8198,203.8281,1368.8198,199.8281" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;" x1="770.3149" x2="1370.8198" y1="199.8281" y2="199.8281"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="250.9229" x="777.3149" y="194.7622">SELECT * FROM users WHERE email=?</text></g><path d="M10,214.8281 L74.4429,214.8281 L74.4429,221.9609 L64.4429,231.9609 L10,231.9609 L10,214.8281" fill="#EEEEEE" style="stroke:#000000;stroke-width:1.5;"/><rect fill="none" height="782.0625" style="stroke:#000000;stroke-width:1.5;" width="1430.1963" x="10" y="214.8281"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="19.4429" x="25" y="227.895">alt</text><text fill="#000000" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="101.5029" x="89.4429" y="227.0386">[user not found]</text><g class="message" data-participant-1="DB" data-participant-2="UR"><polygon fill="#181818" points="781.3149,249.0938,771.3149,253.0938,781.3149,257.0938,777.3149,253.0938" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="775.3149" x2="1375.8198" y1="253.0938" y2="253.0938"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="23.7021" x="787.3149" y="248.0278">null</text></g><g class="message" data-participant-1="UR" data-participant-2="AS"><polygon fill="#181818" points="600.3589,278.2266,590.3589,282.2266,600.3589,286.2266,596.3589,282.2266" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="769.3149" y1="282.2266" y2="282.2266"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="23.7021" x="606.3589" y="277.1606">null</text></g><g class="message" data-participant-1="AS" data-participant-2="AC"><polygon fill="#181818" points="324.1284,307.3594,314.1284,311.3594,324.1284,315.3594,320.1284,311.3594" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="318.1284" x2="588.3589" y1="311.3594" y2="311.3594"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="204.7119" x="330.1284" y="306.2935">throw BadCredentialsException</text></g><g class="message" data-participant-1="AC" data-participant-2="FE"><polygon fill="#181818" points="75.5547,336.4922,65.5547,340.4922,75.5547,344.4922,71.5547,340.4922" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="69.5547" x2="312.1284" y1="340.4922" y2="340.4922"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="116.2256" x="81.5547" y="335.4263">401 Unauthorized</text></g><line style="stroke:#000000;stroke-width:1;stroke-dasharray:2,2;" x1="10" x2="1440.1963" y1="349.4922" y2="349.4922"/><text fill="#000000" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="77.0269" x="15" y="359.7026">[user found]</text><g class="message" data-participant-1="DB" data-participant-2="UR"><polygon fill="#181818" points="781.3149,380.4297,771.3149,384.4297,781.3149,388.4297,777.3149,384.4297" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="775.3149" x2="1375.8198" y1="384.4297" y2="384.4297"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="28.355" x="787.3149" y="379.3638">user</text></g><g class="message" data-participant-1="UR" data-participant-2="AS"><polygon fill="#181818" points="600.3589,409.5625,590.3589,413.5625,600.3589,417.5625,596.3589,413.5625" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="769.3149" y1="413.5625" y2="413.5625"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="28.355" x="606.3589" y="408.4966">user</text></g><g class="message" data-participant-1="AS" data-participant-2="HE"><polygon fill="#181818" points="882.0615,438.6953,892.0615,442.6953,882.0615,446.6953,886.0615,442.6953" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;" x1="589.3589" x2="888.0615" y1="442.6953" y2="442.6953"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="277.729" x="596.3589" y="437.6294">matches(password, user.hashedPassword)</text></g><path d="M20,457.6953 L84.4429,457.6953 L84.4429,464.8281 L74.4429,474.8281 L20,474.8281 L20,457.6953" fill="#EEEEEE" style="stroke:#000000;stroke-width:1.5;"/><rect fill="none" height="532.1953" style="stroke:#000000;stroke-width:1.5;" width="1410.1963" x="20" y="457.6953"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="19.4429" x="35" y="470.7622">alt</text><text fill="#000000" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="133.5684" x="99.4429" y="469.9058">[password mismatch]</text><g class="message" data-participant-1="HE" data-participant-2="AS"><polygon fill="#181818" points="600.3589,491.9609,590.3589,495.9609,600.3589,499.9609,596.3589,495.9609" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="893.0615" y1="495.9609" y2="495.9609"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="30.9258" x="606.3589" y="490.895">false</text></g><g class="message" data-participant-1="AS" data-participant-2="AC"><polygon fill="#181818" points="324.1284,521.0938,314.1284,525.0938,324.1284,529.0938,320.1284,525.0938" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="318.1284" x2="588.3589" y1="525.0938" y2="525.0938"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="204.7119" x="330.1284" y="520.0278">throw BadCredentialsException</text></g><g class="message" data-participant-1="AC" data-participant-2="FE"><polygon fill="#181818" points="75.5547,550.2266,65.5547,554.2266,75.5547,558.2266,71.5547,554.2266" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="69.5547" x2="312.1284" y1="554.2266" y2="554.2266"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="116.2256" x="81.5547" y="549.1606">401 Unauthorized</text></g><line style="stroke:#000000;stroke-width:1;stroke-dasharray:2,2;" x1="20" x2="1430.1963" y1="563.2266" y2="563.2266"/><text fill="#000000" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="111.7886" x="25" y="573.437">[password match]</text><g class="message" data-participant-1="HE" data-participant-2="AS"><polygon fill="#181818" points="600.3589,594.1641,590.3589,598.1641,600.3589,602.1641,596.3589,598.1641" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="893.0615" y1="598.1641" y2="598.1641"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="26.6792" x="606.3589" y="593.0981">true</text></g><g class="message" data-participant-1="AS" data-participant-2="JS"><polygon fill="#181818" points="988.7217,623.2969,998.7217,627.2969,988.7217,631.2969,992.7217,627.2969" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;" x1="589.3589" x2="994.7217" y1="627.2969" y2="627.2969"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="197.7803" x="596.3589" y="622.231">generateAccessToken(user.id)</text></g><g class="message" data-participant-1="JS" data-participant-2="AS"><polygon fill="#181818" points="600.3589,652.4297,590.3589,656.4297,600.3589,660.4297,596.3589,656.4297" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="999.7217" y1="656.4297" y2="656.4297"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="83.4653" x="606.3589" y="651.3638">accessToken</text></g><g class="message" data-participant-1="AS" data-participant-2="JS"><polygon fill="#181818" points="988.7217,681.5625,998.7217,685.5625,988.7217,689.5625,992.7217,685.5625" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;" x1="589.3589" x2="994.7217" y1="685.5625" y2="685.5625"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="203.0107" x="596.3589" y="680.4966">generateRefreshToken(user.id)</text></g><g class="message" data-participant-1="JS" data-participant-2="AS"><polygon fill="#181818" points="600.3589,710.6953,590.3589,714.6953,600.3589,718.6953,596.3589,714.6953" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="999.7217" y1="714.6953" y2="714.6953"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="85.9346" x="606.3589" y="709.6294">refreshToken</text></g><g class="message" data-participant-1="AS" data-participant-2="AS"><line style="stroke:#181818;stroke-width:1;" x1="589.3589" x2="631.3589" y1="743.8281" y2="743.8281"/><line style="stroke:#181818;stroke-width:1;" x1="631.3589" x2="631.3589" y1="743.8281" y2="756.8281"/><line style="stroke:#181818;stroke-width:1;" x1="590.3589" x2="631.3589" y1="756.8281" y2="756.8281"/><polygon fill="#181818" points="600.3589,752.8281,590.3589,756.8281,600.3589,760.8281,596.3589,756.8281" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="166.9561" x="596.3589" y="738.7622">hashToken(refreshToken)</text></g><g class="message" data-participant-1="AS" data-participant-2="RTR"><polygon fill="#181818" points="1134.9209,781.9609,1144.9209,785.9609,1134.9209,789.9609,1138.9209,785.9609" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;" x1="589.3589" x2="1140.9209" y1="785.9609" y2="785.9609"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="230.2803" x="596.3589" y="780.895">save(user.id, hashedRefreshToken)</text></g><g class="message" data-participant-1="RTR" data-participant-2="DB"><polygon fill="#181818" points="1364.8198,811.0938,1374.8198,815.0938,1364.8198,819.0938,1368.8198,815.0938" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;" x1="1146.9209" x2="1370.8198" y1="815.0938" y2="815.0938"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="205.8989" x="1153.9209" y="810.0278">INSERT INTO refresh_tokens(...)</text></g><g class="message" data-participant-1="DB" data-participant-2="RTR"><polygon fill="#181818" points="1157.9209,825.0938,1147.9209,829.0938,1157.9209,833.0938,1153.9209,829.0938" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="1151.9209" x2="1375.8198" y1="829.0938" y2="829.0938"/></g><g class="message" data-participant-1="RTR" data-participant-2="AS"><polygon fill="#181818" points="600.3589,839.0938,590.3589,843.0938,600.3589,847.0938,596.3589,843.0938" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="1145.9209" y1="843.0938" y2="843.0938"/></g><g class="message" data-participant-1="AS" data-participant-2="AC"><polygon fill="#181818" points="324.1284,868.2266,314.1284,872.2266,324.1284,876.2266,320.1284,872.2266" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="318.1284" x2="588.3589" y1="872.2266" y2="872.2266"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="252.2305" x="330.1284" y="867.1606">TokenPair(accessToken, refreshToken)</text></g><g class="message" data-participant-1="AC" data-participant-2="FE"><polygon fill="#181818" points="75.5547,897.3594,65.5547,901.3594,75.5547,905.3594,71.5547,901.3594" style="stroke:#181818;stroke-width:1;"/><line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="69.5547" x2="312.1284" y1="901.3594" y2="901.3594"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="47.7026" x="81.5547" y="896.2935">200 OK</text></g><path d="M69,914.3594 L69,984.3594 L301,984.3594 L301,924.3594 L291,914.3594 L69,914.3594" fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><path d="M291,914.3594 L291,924.3594 L301,924.3594 L291,914.3594" fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8.271" x="75" y="931.4263">{</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="203.1187" x="83.2646" y="946.5591">&quot;accessToken&quot;: &quot;eyJhbGciOi...&quot;,</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="201.4556" x="83.2646" y="961.6919">&quot;refreshToken&quot;: &quot;eyJhbGciOi...&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8.271" x="75" y="976.8247">}</text></g></svg></div><div class="puml dark" style=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" data-diagram-type="SEQUENCE" height="1094px" preserveAspectRatio="xMidYMid meet" style="width:1447px;height:1094px;background:#1B1B1B;" version="1.1" viewBox="0 0 1447 1094" width="1447px" zoomAndPan="magnify" class="diagram"><defs/><g><rect fill="#1B1B1B" height="1094" style="stroke:none;stroke-width:1;" width="1447" x="0" y="0"/><rect fill="none" height="782.0625" style="stroke:#FFFFFF;stroke-width:1.5;" width="1430.1963" x="10" y="214.8281"/><rect fill="none" height="532.1953" style="stroke:#FFFFFF;stroke-width:1.5;" width="1410.1963" x="20" y="457.6953"/><g><title>Frontend</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="60.5547" y="81.2969"/><line style="stroke:#E7E7E7;stroke-width:0.5;stroke-dasharray:5,5;" x1="64" x2="64" y1="81.2969" y2="1013.8906"/></g><g><title>AuthController</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="309.1284" y="81.2969"/><line style="stroke:#E7E7E7;stroke-width:0.5;stroke-dasharray:5,5;" x1="312.1357" x2="312.1357" y1="81.2969" y2="1013.8906"/></g><g><title>AuthService</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="585.3589" y="81.2969"/><line style="stroke:#E7E7E7;stroke-width:0.5;stroke-dasharray:5,5;" x1="589.082" x2="589.082" y1="81.2969" y2="1013.8906"/></g><g><title>UserRepository</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="766.3149" y="81.2969"/><line style="stroke:#E7E7E7;stroke-width:0.5;stroke-dasharray:5,5;" x1="769.8237" x2="769.8237" y1="81.2969" y2="1013.8906"/></g><g><title>HashEncoder</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="890.0615" y="81.2969"/><line style="stroke:#E7E7E7;stroke-width:0.5;stroke-dasharray:5,5;" x1="893.8062" x2="893.8062" y1="81.2969" y2="1013.8906"/></g><g><title>JwtService</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="996.7217" y="81.2969"/><line style="stroke:#E7E7E7;stroke-width:0.5;stroke-dasharray:5,5;" x1="1000.3169" x2="1000.3169" y1="81.2969" y2="1013.8906"/></g><g><title>RefreshTokenRepository</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="1142.9209" y="81.2969"/><line style="stroke:#E7E7E7;stroke-width:0.5;stroke-dasharray:5,5;" x1="1146.1265" x2="1146.1265" y1="81.2969" y2="1013.8906"/></g><g><title>PostgreSQL</title><rect fill="#000000" fill-opacity="0.00000" height="932.5938" width="8" x="1372.8198" y="81.2969"/><line style="stroke:#E7E7E7;stroke-width:0.5;stroke-dasharray:5,5;" x1="1376.4434" x2="1376.4434" y1="81.2969" y2="1013.8906"/></g><g class="participant participant-head" data-participant="FE"><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63.1094" x="30" y="77.9951">Frontend</text><ellipse cx="64.5547" cy="13.5" fill="#222222" rx="8" ry="8" style="stroke:#E7E7E7;stroke-width:0.5;"/><path d="M64.5547,21.5 L64.5547,48.5 M51.5547,29.5 L77.5547,29.5 M64.5547,48.5 L51.5547,63.5 M64.5547,48.5 L77.5547,63.5" fill="none" style="stroke:#E7E7E7;stroke-width:0.5;"/></g><g class="participant participant-tail" data-participant="FE"><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63.1094" x="30" y="1025.8857">Frontend</text><ellipse cx="64.5547" cy="1037.6875" fill="#222222" rx="8" ry="8" style="stroke:#E7E7E7;stroke-width:0.5;"/><path d="M64.5547,1045.6875 L64.5547,1072.6875 M51.5547,1053.6875 L77.5547,1053.6875 M64.5547,1072.6875 L51.5547,1087.6875 M64.5547,1072.6875 L77.5547,1087.6875" fill="none" style="stroke:#E7E7E7;stroke-width:0.5;"/></g><g class="participant participant-head" data-participant="AC"><rect fill="#222222" height="30.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="115.9854" x="255.1357" y="50"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="101.9854" x="262.1357" y="69.9951">AuthController</text></g><g class="participant participant-tail" data-participant="AC"><rect fill="#222222" height="30.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="115.9854" x="255.1357" y="1012.8906"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="101.9854" x="262.1357" y="1032.8857">AuthController</text></g><g class="participant participant-head" data-participant="AS"><rect fill="#222222" height="30.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="98.5537" x="540.082" y="50"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84.5537" x="547.082" y="69.9951">AuthService</text></g><g class="participant participant-tail" data-participant="AS"><rect fill="#222222" height="30.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="98.5537" x="540.082" y="1012.8906"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84.5537" x="547.082" y="1032.8857">AuthService</text></g><g class="participant participant-head" data-participant="UR"><rect fill="#222222" height="30.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="120.9824" x="709.8237" y="50"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106.9824" x="716.8237" y="69.9951">UserRepository</text></g><g class="participant participant-tail" data-participant="UR"><rect fill="#222222" height="30.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="120.9824" x="709.8237" y="1012.8906"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106.9824" x="716.8237" y="1032.8857">UserRepository</text></g><g class="participant participant-head" data-participant="HE"><rect fill="#222222" height="30.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="106.5107" x="840.8062" y="50"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="92.5107" x="847.8062" y="69.9951">HashEncoder</text></g><g class="participant participant-tail" data-participant="HE"><rect fill="#222222" height="30.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="106.5107" x="840.8062" y="1012.8906"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="92.5107" x="847.8062" y="1032.8857">HashEncoder</text></g><g class="participant participant-head" data-participant="JS"><rect fill="#222222" height="30.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="86.8096" x="957.3169" y="50"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72.8096" x="964.3169" y="69.9951">JwtService</text></g><g class="participant participant-tail" data-participant="JS"><rect fill="#222222" height="30.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="86.8096" x="957.3169" y="1012.8906"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72.8096" x="964.3169" y="1032.8857">JwtService</text></g><g class="participant participant-head" data-participant="RTR"><rect fill="#222222" height="30.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="185.5889" x="1054.1265" y="50"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="171.5889" x="1061.1265" y="69.9951">RefreshTokenRepository</text></g><g class="participant participant-tail" data-participant="RTR"><rect fill="#222222" height="30.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="185.5889" x="1054.1265" y="1012.8906"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="171.5889" x="1061.1265" y="1032.8857">RefreshTokenRepository</text></g><g class="participant participant-head" data-participant="DB"><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="80.7529" x="1333.4434" y="77.9951">PostgreSQL</text><path d="M1358.8198,29 C1358.8198,19 1376.8198,19 1376.8198,19 C1376.8198,19 1394.8198,19 1394.8198,29 L1394.8198,55 C1394.8198,65 1376.8198,65 1376.8198,65 C1376.8198,65 1358.8198,65 1358.8198,55 L1358.8198,29" fill="#222222" style="stroke:#E7E7E7;stroke-width:0.5;"/><path d="M1358.8198,29 C1358.8198,39 1376.8198,39 1376.8198,39 C1376.8198,39 1394.8198,39 1394.8198,29" fill="none" style="stroke:#E7E7E7;stroke-width:0.5;"/></g><g class="participant participant-tail" data-participant="DB"><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="80.7529" x="1333.4434" y="1025.8857">PostgreSQL</text><path d="M1358.8198,1039.1875 C1358.8198,1029.1875 1376.8198,1029.1875 1376.8198,1029.1875 C1376.8198,1029.1875 1394.8198,1029.1875 1394.8198,1039.1875 L1394.8198,1065.1875 C1394.8198,1075.1875 1376.8198,1075.1875 1376.8198,1075.1875 C1376.8198,1075.1875 1358.8198,1075.1875 1358.8198,1065.1875 L1358.8198,1039.1875" fill="#222222" style="stroke:#E7E7E7;stroke-width:0.5;"/><path d="M1358.8198,1039.1875 C1358.8198,1049.1875 1376.8198,1049.1875 1376.8198,1049.1875 C1376.8198,1049.1875 1394.8198,1049.1875 1394.8198,1039.1875" fill="none" style="stroke:#E7E7E7;stroke-width:0.5;"/></g><g class="message" data-participant-1="FE" data-participant-2="AC"><polygon fill="#E7E7E7" points="301.1284,108.4297,311.1284,112.4297,301.1284,116.4297,305.1284,112.4297" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;" x1="64.5547" x2="307.1284" y1="112.4297" y2="112.4297"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="224.5737" x="71.5547" y="107.3638">POST /auth/login(email, password)</text></g><g class="message" data-participant-1="AC" data-participant-2="AS"><polygon fill="#E7E7E7" points="577.3589,137.5625,587.3589,141.5625,577.3589,145.5625,581.3589,141.5625" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;" x1="313.1284" x2="583.3589" y1="141.5625" y2="141.5625"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="147.875" x="320.1284" y="136.4966">login(email, password)</text></g><g class="message" data-participant-1="AS" data-participant-2="UR"><polygon fill="#E7E7E7" points="758.3149,166.6953,768.3149,170.6953,758.3149,174.6953,762.3149,170.6953" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;" x1="589.3589" x2="764.3149" y1="170.6953" y2="170.6953"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="123.354" x="596.3589" y="165.6294">findByEmail(email)</text></g><g class="message" data-participant-1="UR" data-participant-2="DB"><polygon fill="#E7E7E7" points="1364.8198,195.8281,1374.8198,199.8281,1364.8198,203.8281,1368.8198,199.8281" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;" x1="770.3149" x2="1370.8198" y1="199.8281" y2="199.8281"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="250.9229" x="777.3149" y="194.7622">SELECT * FROM users WHERE email=?</text></g><path d="M10,214.8281 L74.4429,214.8281 L74.4429,221.9609 L64.4429,231.9609 L10,231.9609 L10,214.8281" fill="#555555" style="stroke:#FFFFFF;stroke-width:1.5;"/><rect fill="none" height="782.0625" style="stroke:#FFFFFF;stroke-width:1.5;" width="1430.1963" x="10" y="214.8281"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="19.4429" x="25" y="227.895">alt</text><text fill="#FFFFFF" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="101.5029" x="89.4429" y="227.0386">[user not found]</text><g class="message" data-participant-1="DB" data-participant-2="UR"><polygon fill="#E7E7E7" points="781.3149,249.0938,771.3149,253.0938,781.3149,257.0938,777.3149,253.0938" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="775.3149" x2="1375.8198" y1="253.0938" y2="253.0938"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="23.7021" x="787.3149" y="248.0278">null</text></g><g class="message" data-participant-1="UR" data-participant-2="AS"><polygon fill="#E7E7E7" points="600.3589,278.2266,590.3589,282.2266,600.3589,286.2266,596.3589,282.2266" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="769.3149" y1="282.2266" y2="282.2266"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="23.7021" x="606.3589" y="277.1606">null</text></g><g class="message" data-participant-1="AS" data-participant-2="AC"><polygon fill="#E7E7E7" points="324.1284,307.3594,314.1284,311.3594,324.1284,315.3594,320.1284,311.3594" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="318.1284" x2="588.3589" y1="311.3594" y2="311.3594"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="204.7119" x="330.1284" y="306.2935">throw BadCredentialsException</text></g><g class="message" data-participant-1="AC" data-participant-2="FE"><polygon fill="#E7E7E7" points="75.5547,336.4922,65.5547,340.4922,75.5547,344.4922,71.5547,340.4922" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="69.5547" x2="312.1284" y1="340.4922" y2="340.4922"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="116.2256" x="81.5547" y="335.4263">401 Unauthorized</text></g><line style="stroke:#FFFFFF;stroke-width:1;stroke-dasharray:2,2;" x1="10" x2="1440.1963" y1="349.4922" y2="349.4922"/><text fill="#FFFFFF" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="77.0269" x="15" y="359.7026">[user found]</text><g class="message" data-participant-1="DB" data-participant-2="UR"><polygon fill="#E7E7E7" points="781.3149,380.4297,771.3149,384.4297,781.3149,388.4297,777.3149,384.4297" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="775.3149" x2="1375.8198" y1="384.4297" y2="384.4297"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="28.355" x="787.3149" y="379.3638">user</text></g><g class="message" data-participant-1="UR" data-participant-2="AS"><polygon fill="#E7E7E7" points="600.3589,409.5625,590.3589,413.5625,600.3589,417.5625,596.3589,413.5625" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="769.3149" y1="413.5625" y2="413.5625"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="28.355" x="606.3589" y="408.4966">user</text></g><g class="message" data-participant-1="AS" data-participant-2="HE"><polygon fill="#E7E7E7" points="882.0615,438.6953,892.0615,442.6953,882.0615,446.6953,886.0615,442.6953" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;" x1="589.3589" x2="888.0615" y1="442.6953" y2="442.6953"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="277.729" x="596.3589" y="437.6294">matches(password, user.hashedPassword)</text></g><path d="M20,457.6953 L84.4429,457.6953 L84.4429,464.8281 L74.4429,474.8281 L20,474.8281 L20,457.6953" fill="#555555" style="stroke:#FFFFFF;stroke-width:1.5;"/><rect fill="none" height="532.1953" style="stroke:#FFFFFF;stroke-width:1.5;" width="1410.1963" x="20" y="457.6953"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="19.4429" x="35" y="470.7622">alt</text><text fill="#FFFFFF" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="133.5684" x="99.4429" y="469.9058">[password mismatch]</text><g class="message" data-participant-1="HE" data-participant-2="AS"><polygon fill="#E7E7E7" points="600.3589,491.9609,590.3589,495.9609,600.3589,499.9609,596.3589,495.9609" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="893.0615" y1="495.9609" y2="495.9609"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="30.9258" x="606.3589" y="490.895">false</text></g><g class="message" data-participant-1="AS" data-participant-2="AC"><polygon fill="#E7E7E7" points="324.1284,521.0938,314.1284,525.0938,324.1284,529.0938,320.1284,525.0938" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="318.1284" x2="588.3589" y1="525.0938" y2="525.0938"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="204.7119" x="330.1284" y="520.0278">throw BadCredentialsException</text></g><g class="message" data-participant-1="AC" data-participant-2="FE"><polygon fill="#E7E7E7" points="75.5547,550.2266,65.5547,554.2266,75.5547,558.2266,71.5547,554.2266" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="69.5547" x2="312.1284" y1="554.2266" y2="554.2266"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="116.2256" x="81.5547" y="549.1606">401 Unauthorized</text></g><line style="stroke:#FFFFFF;stroke-width:1;stroke-dasharray:2,2;" x1="20" x2="1430.1963" y1="563.2266" y2="563.2266"/><text fill="#FFFFFF" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="111.7886" x="25" y="573.437">[password match]</text><g class="message" data-participant-1="HE" data-participant-2="AS"><polygon fill="#E7E7E7" points="600.3589,594.1641,590.3589,598.1641,600.3589,602.1641,596.3589,598.1641" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="893.0615" y1="598.1641" y2="598.1641"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="26.6792" x="606.3589" y="593.0981">true</text></g><g class="message" data-participant-1="AS" data-participant-2="JS"><polygon fill="#E7E7E7" points="988.7217,623.2969,998.7217,627.2969,988.7217,631.2969,992.7217,627.2969" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;" x1="589.3589" x2="994.7217" y1="627.2969" y2="627.2969"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="197.7803" x="596.3589" y="622.231">generateAccessToken(user.id)</text></g><g class="message" data-participant-1="JS" data-participant-2="AS"><polygon fill="#E7E7E7" points="600.3589,652.4297,590.3589,656.4297,600.3589,660.4297,596.3589,656.4297" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="999.7217" y1="656.4297" y2="656.4297"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="83.4653" x="606.3589" y="651.3638">accessToken</text></g><g class="message" data-participant-1="AS" data-participant-2="JS"><polygon fill="#E7E7E7" points="988.7217,681.5625,998.7217,685.5625,988.7217,689.5625,992.7217,685.5625" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;" x1="589.3589" x2="994.7217" y1="685.5625" y2="685.5625"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="203.0107" x="596.3589" y="680.4966">generateRefreshToken(user.id)</text></g><g class="message" data-participant-1="JS" data-participant-2="AS"><polygon fill="#E7E7E7" points="600.3589,710.6953,590.3589,714.6953,600.3589,718.6953,596.3589,714.6953" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="999.7217" y1="714.6953" y2="714.6953"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="85.9346" x="606.3589" y="709.6294">refreshToken</text></g><g class="message" data-participant-1="AS" data-participant-2="AS"><line style="stroke:#E7E7E7;stroke-width:1;" x1="589.3589" x2="631.3589" y1="743.8281" y2="743.8281"/><line style="stroke:#E7E7E7;stroke-width:1;" x1="631.3589" x2="631.3589" y1="743.8281" y2="756.8281"/><line style="stroke:#E7E7E7;stroke-width:1;" x1="590.3589" x2="631.3589" y1="756.8281" y2="756.8281"/><polygon fill="#E7E7E7" points="600.3589,752.8281,590.3589,756.8281,600.3589,760.8281,596.3589,756.8281" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="166.9561" x="596.3589" y="738.7622">hashToken(refreshToken)</text></g><g class="message" data-participant-1="AS" data-participant-2="RTR"><polygon fill="#E7E7E7" points="1134.9209,781.9609,1144.9209,785.9609,1134.9209,789.9609,1138.9209,785.9609" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;" x1="589.3589" x2="1140.9209" y1="785.9609" y2="785.9609"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="230.2803" x="596.3589" y="780.895">save(user.id, hashedRefreshToken)</text></g><g class="message" data-participant-1="RTR" data-participant-2="DB"><polygon fill="#E7E7E7" points="1364.8198,811.0938,1374.8198,815.0938,1364.8198,819.0938,1368.8198,815.0938" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;" x1="1146.9209" x2="1370.8198" y1="815.0938" y2="815.0938"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="205.8989" x="1153.9209" y="810.0278">INSERT INTO refresh_tokens(...)</text></g><g class="message" data-participant-1="DB" data-participant-2="RTR"><polygon fill="#E7E7E7" points="1157.9209,825.0938,1147.9209,829.0938,1157.9209,833.0938,1153.9209,829.0938" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="1151.9209" x2="1375.8198" y1="829.0938" y2="829.0938"/></g><g class="message" data-participant-1="RTR" data-participant-2="AS"><polygon fill="#E7E7E7" points="600.3589,839.0938,590.3589,843.0938,600.3589,847.0938,596.3589,843.0938" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="594.3589" x2="1145.9209" y1="843.0938" y2="843.0938"/></g><g class="message" data-participant-1="AS" data-participant-2="AC"><polygon fill="#E7E7E7" points="324.1284,868.2266,314.1284,872.2266,324.1284,876.2266,320.1284,872.2266" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="318.1284" x2="588.3589" y1="872.2266" y2="872.2266"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="252.2305" x="330.1284" y="867.1606">TokenPair(accessToken, refreshToken)</text></g><g class="message" data-participant-1="AC" data-participant-2="FE"><polygon fill="#E7E7E7" points="75.5547,897.3594,65.5547,901.3594,75.5547,905.3594,71.5547,901.3594" style="stroke:#E7E7E7;stroke-width:1;"/><line style="stroke:#E7E7E7;stroke-width:1;stroke-dasharray:2,2;" x1="69.5547" x2="312.1284" y1="901.3594" y2="901.3594"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="47.7026" x="81.5547" y="896.2935">200 OK</text></g><path d="M69,914.3594 L69,984.3594 L301,984.3594 L301,924.3594 L291,914.3594 L69,914.3594" fill="#714137" style="stroke:#E7E7E7;stroke-width:0.5;"/><path d="M291,914.3594 L291,924.3594 L301,924.3594 L291,914.3594" fill="#714137" style="stroke:#E7E7E7;stroke-width:0.5;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8.271" x="75" y="931.4263">{</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="203.1187" x="83.2646" y="946.5591">&quot;accessToken&quot;: &quot;eyJhbGciOi...&quot;,</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="201.4556" x="83.2646" y="961.6919">&quot;refreshToken&quot;: &quot;eyJhbGciOi...&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8.271" x="75" y="976.8247">}</text></g></svg></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../assets/mkdocs_puml/puml.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../../assets/mkdocs_puml/interaction.js"></script>
+      
+    
+  </body>
+</html>
