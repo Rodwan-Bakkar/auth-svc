@@ -15,4 +15,4 @@ This is a Spring Boot application written in Kotlin that handles **user authenti
 
 ## Develop the docs
 
-![Visit the docs](https://rodwan-bakkar.github.io/auth-svc/)
+[Visit the docs](https://rodwan-bakkar.github.io/auth-svc/)
