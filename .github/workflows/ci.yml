@@ -63,21 +63,16 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build -x test
 
-      # Run tests (includes integration tests)
-#      - name: Run tests
-#        env:
-#          SPRING_PROFILES_ACTIVE: test
-#          DB_HOST: localhost
-#          DB_PORT: 5432
-#          DB_NAME: testdb
-#          DB_USER: test
-#          DB_PASSWORD: test
-#        run: ./gradlew test
-#
-#      # Upload test results (optional)
-#      - name: Upload test reports
-#        if: always()
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: test-reports
-#          path: build/reports/tests/test
+      # Build the docs
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+
+      - name: Install MkDocs & PlantUML dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install mkdocs mkdocs-material mkdocs-puml
+
+      - name: Build MkDocs documentation
+        run: mkdocs build

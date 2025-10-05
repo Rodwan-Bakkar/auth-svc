@@ -1,4 +1,3 @@
-
 # Auth Service
 
 This is a Spring Boot application written in Kotlin that handles **user authentication** with JWT tokens.
@@ -12,37 +11,8 @@ This is a Spring Boot application written in Kotlin that handles **user authenti
 - Flyway for database migrations
 - jOOQ for type-safe SQL queries
 
-## Database Schema
+## Develop locally
 
-- `users` table: stores user id, email, and hashed password
-- `refresh_tokens` table: stores refresh tokens with expiration
+## Develop the docs
 
-## Sequence Diagrams
-
-### User Registration
-
-The sequence diagram below shows the flow for **registering a new user**:
-
-![User Registration](https://img.plantuml.biz/plantuml/svg/ZLHTRzem57tFhxZA4qWD3H_H8D8w6WZgf6qWO9kqDzUvWBKGPxQXhQRzzzac40BfEakGs3xdVfmJUoWL4MgtJHr25HVWJWJF56Q92qJ297PolSqeoqccmBtVgSr8xmkUfYWif9nUGnSezeoYnHNlLT1NYMAEEPTCvtwnk79QXJuGkOapofCYhvdhd0bHv95817V6fLeBb32EB60SESua1k_khCGGPjF54cw9BkvMu9f9XQA1MyBI6yY9b4zS94sd95pIlv6KwPG8bWEK2u5KPIZb_v2E6JHlcwVupDIBGr9L1DFgdm0isnkI0tgS1zQH9t48FT-7Y2HQh5yxbCh1LE8LzkweUGYljsf81SmmIlL3e1kaFu6jYl9qkL99IoXHXZEEGbZ4d-BH4YRpwMVOQLCbV7-8v_61-lw3POqZM_-PmMQrxFyimMMIyrvC-1FeLFg5v6eZ-9CE8NEUILmeedOoVgQOAyQp4xjMsO5PNgMCAeixINkXrE7x2s6ZdusgdcOSjgkL6oWcim9R5_HSVadss33D7ashqflDMgKETdpyieZdI_rOJWzsj5gj4_pAXr1_RXgaCB5We0A9qGaKs-glYsppDqsf17ZJdNhqwmSesh6qg4qKblxBmuxVXf7f0KkHpSYuFeE2hJSA-ChSRN0nVb-j0BWiSKDmiTllq9KVUDr1qFTwgwJhaIuEl0G70V4J3CZZmBsfurltJ0YbjHpQMKkV_temFPHzhmoXutS2pnzu7N_PxeVjTXYyQ_M3Nk1tVxXNv3-L5Ns1stQTOkAOtr3_cPl-Bm00)
-
-> Diagram generated from [`docs/diagrams/sequence/user-registration.puml`](docs/diagrams/sequence/user-registration.puml)
-
-### User Login
-
-The sequence diagram below shows the flow for **user login**:
-
-![User Login](https://img.plantuml.biz/plantuml/svg/bLHTZzem47pthrZb2IgEerMV8lLw448flHQQ1FMnyYKBiHfiP9kxqgh_lROJGWXmLIq1OcTsTsRzSQyqbNgtAGXDjP3WJQJW6ddc0LKm2SdMm2nbMyerUCETpWE3Ir4KA1rb69nJOfHFBCKIZq_nfK8PuLOePjhj7MKPdLAcLEKXJqLMjPYsLCoUTRF3hDKXmfL4bIVY1_9MfoY9I4OrVQGAmLi8fTSIuwyF3XoF29c4S7DdFFcmcCS9t5BZvhOGQyOxkA6iwC6MAlKiPDObmy1nOn-k4CWmjenbvCEAyMoq3osZv7N9ChBWUEH373w4GGAlO1BDFyFE34Z1jsaOXU2exzuJMcWN1ouqhCIEPmJC6e_Wfch0TqNXOhPi9QkEMHsLBPrByGmZcWKIC-IQqKA5FrFSQYPuIGuSUHBwy7Rm6fRSpa18zWipWeMPcnDoKOH5sYBgM3cCgIcxeJhDKNKEa-evKZytsuxPeXwVJRB63pJOCELI7MBNDApRh8mFh87_ClmlqnPtnez2hgdGSdSguiwSJX_Mo55IZSCqHQNSmUmuowooQTSihilG8--5Qirp_c8vsI2swbdOphqiqYHsMqnpTNnGz0aFhNfGRbXqCSdG3yVxuvSuZ1BpaymFKhvhorQTVhz_JAaEahsZ9rMSp4jRwrekA9ETni1wSCN5SOVV30Om_rGZTfbxXI3PEjSWLlRPWzRwVHO1y1fjFHyytC_onmyfcpFZo-jTocXgEqyvo_Xp4Z6liXDAgZ_4VkxDbts-_m80)
-
-> Diagram generated from [`docs/diagrams/sequence/user-login.puml`](docs/diagrams/sequence/user-login.puml)
-
-### Refreshing a Token
-
-The sequence diagram below shows the flow for **refreshing a token**:
-
-![Refreshing a Token](https://img.plantuml.biz/plantuml/svg/hLRRRjf047ttLunuebLAQDKdf3GnO9hGDaIsKH-hZJt0giuQxQwJfbN_lRjhWzUt06f6uYBFcPapCyThNmb9kCmU4eT4CkKmuocJo68W0cQUirLE6j4jOHBSJ6ucoilJ946k0Uwa0GYGFz88ZJUeUETFqdBEgywbGExZDXLKaNZMWALV0VYuuYWsOVeJMHNeXxuJ4qdkYK3etQL2hXKIfkEUzax7ZZFpuDqdHNO4TuiWX7EYU9xpF66VMudVEEx4G8CHTFW3xPyh_oD9g2gBDh4Qs2691Ad_0sK6xu2okSfH55cHHA2vw1ON5KcvuUcJQbXiKoOma4HcmliLuLRIbENWYG7Fl15y7Bw79TCTfPp-nhm2ggn5uR9ihRJa6UwlbssjKUfTtCHA20zjJRMaoan0BTdIL-rH5e-VR-9-ZYY3bxw6JCSZ2BoltYI4jp3p5zzC9W7VhptV0nfVNEu3z2Ir4rWgOPLch2odRJesP7HDbYL9nQTh5KGRlfEclWywCFsTcIqOqat2DT8QrV1Rn5lzvT8sf5s0zGXhPpe4Orky7VdLxRLRP2uCbyNN9ZYlgAaDQ7pMah59G2LhNtp1-uSHxKu1kMekBi6zdHRfJLvB5plJ-YXo5C9l5qfjzgQvXYegRBkaOq_fP0djWu-KqiwCfAfzTlTOx_E8bRTrVaAOfPWO4vJu6fgfSCgrCrNQ2RtNKKvpKaTCvS04yeEK8LVF1pUAK8YoR_iOh9jrVp9yiY9Fg5Tv7frMy8GTkvLJfnRRNSyIY22FM1V2xR5vB2tSt0QU7wgVS57JGdym67IdiEwC_rruSViRpdU4ydvrUMVrsRumd_8y-30Smk9B9rAREkBKQK3N6mdfIh-jlGJMzkSW0g17IkQz4VJmURwv_npH1LNZx9qTay5-23LJ7CpmzqM4VZVLZJT0Q1s3-h_-NAal_Mxx3m00)
-
-> Diagram generated from [`docs/diagrams/sequence/refresh-token.puml`](docs/diagrams/sequence/refresh-token.puml)
-
-## Getting Started
-
-1. Clone the repository:
+![Visit the docs]()
