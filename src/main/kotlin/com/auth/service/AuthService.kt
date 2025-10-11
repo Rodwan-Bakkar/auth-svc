@@ -15,7 +15,7 @@ import java.time.Instant
 import java.util.Base64
 import java.util.UUID
 
-@Service
+@Service 
 class AuthService(
     private val jwtService: JwtService,
     private val userRepository: UserRepository,
