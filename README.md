@@ -26,10 +26,13 @@ IDEA.
 - Create Environment File (`.env`):
   Create a file named `.env` in the root directory of the project and populate it with the following environment
   variables:
-    - DB_URL=jdbc:postgresql://localhost:5432/auth_db
-    - DB_USER=db_user
-    - DB_PASSWORD=db_password
-    - JWT_SECRET=****** Add your secret here ****
+
+```bash
+DB_URL=jdbc:postgresql://localhost:5432/auth_db
+DB_USER=db_user
+DB_PASSWORD=db_password
+JWT_SECRET=****** Add your secret here ****
+```
 
 Gradle will read these variables on build time and use them for flyway migration and jOOQ generation.
 
@@ -49,14 +52,35 @@ Gradle will read these variables on build time and use them for flyway migration
 
 You are now ready to develop locally 😄
 
-## Code style [WIP]
+## ⚖️ Code Style [WIP]
 
-## Develop the docs [WIP]
+## 🧪 Testing [WIP]
+
+## 📚 Develop the Docs
 
 [Visit the docs](https://rodwan-bakkar.github.io/auth-svc/)
 
-## Github actions [WIP]
+The documentation is written in **Markdown** and hosted on **GitHub Pages**. It is generated using **MkDocs** with
+the **Material for MkDocs** theme and using **GitHub Actions** (Check `.github/workflows/deploy-docs.yml`).  
+Currently, it mainly contains UML diagrams created with **PlantUML** using the **MkDocs PlantUML plugin**.
 
-## Deploy to production [WIP]
+### Develop Locally
 
-## How to contribute [WIP]
+1. Make sure **Python** is installed on your machine.
+2. Create a Python virtual environment, install the necessary dependencies and serve the docs locally:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install mkdocs mkdocs-material mkdocs-puml
+mkdocs serve
+```
+
+> ⚠️ **Note:** UML diagrams are embedded in the Markdown files and generated using the **MkDocs PlantUML plugin**.  
+> You can use [PlantUML Online Editor](https://editor.plantuml.com/) to create or edit these diagrams.
+
+## ⚙️ Github Actions [WIP]
+
+## 🚀 Deploy to Production [WIP]
+
+## 🤝 How to Contribute [WIP]
