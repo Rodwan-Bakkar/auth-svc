@@ -107,6 +107,8 @@ dependencies {
     implementation("io.github.cdimascio:java-dotenv:5.2.2")
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")
+
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.3.1")
 }
 
 kotlin {

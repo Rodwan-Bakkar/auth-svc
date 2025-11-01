@@ -13,7 +13,8 @@ This is a Spring Boot application written in Kotlin that handles **user authenti
 
 [Visit the OpenAPI specs](https://auth-svc-qxq3.onrender.com/swagger-ui/index.html)
 
-> ⚠️ **Note:** The project is hosted on Render, cold starts may take a few minutes, so please be patient 😄
+> ⚠️ **Note:** The project is hosted on [Render](https://render.com/), cold starts may take a few minutes, so please be
+> patient 😄
 
 ## 🧑‍💻 Develop Locally
 
@@ -61,7 +62,11 @@ runs as a step in the Pull Request Workflow and can fail the workflow if violati
 Tip: You can automatically apply the code style defined in `.editorconfig` on save in IntelliJ by enabling the
 corresponding setting in IntelliJ preferences.
 
-## 🧪 Testing [WIP]
+## 🧪 Testing
+
+- Unit tests: Validate core business logic in isolation using JUnit 5 and Mockito. Unit tests run automatically as part
+  of the CI pipeline to ensure correctness and prevent regressions.
+- Integration tests: [WIP]
 
 ## 📚 Develop the Docs
 

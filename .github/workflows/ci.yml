@@ -19,7 +19,7 @@ jobs:
           POSTGRES_PASSWORD: testpw
           POSTGRES_DB: testdb
         options: >-
-          --health-cmd "pg_isready -U test"
+          --health-cmd "pg_isready -U testuser"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -35,6 +35,7 @@ jobs:
       FLYWAY_URL: jdbc:postgresql://localhost:5432/testdb
       FLYWAY_USER: testuser
       FLYWAY_PASSWORD: testpw
+      JWT_SECRET: 0fUqzWwZpI1h8bgkDDeQ3qUxY5+9k0A7tRybiDK1YZGq3Cz4JxD+Pq2t0mxy+0cR
 
     steps:
       # Checkout code
@@ -57,9 +58,9 @@ jobs:
       - name: Run ktlint
         run: ./gradlew ktlintCheck
 
-      # Build the app
+      # Build & test
       - name: Build with Gradle
-        run: ./gradlew clean build -x test
+        run: ./gradlew clean build test
 
       # Build the docs
       - name: Set up Python
