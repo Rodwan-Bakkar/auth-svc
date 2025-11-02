@@ -64,9 +64,13 @@ corresponding setting in IntelliJ preferences.
 
 ## 🧪 Testing
 
-- Unit tests: Validate core business logic in isolation using JUnit 5 and Mockito. Unit tests run automatically as part
-  of the CI pipeline to ensure correctness and prevent regressions.
-- Integration tests: [WIP]
+The following types of tests are included in this project and run automatically as part of the CI pipeline to ensure
+correctness and prevent regressions:
+
+- **Unit tests**: Validate core business logic in isolation using JUnit 5 and Mockito.
+- **Integration tests**: Verify that multiple components (such as services, repositories, and database interactions)
+  work correctly together within a real Spring Boot context. These tests use a transactional setup to ensure data
+  isolation and are designed to validate end-to-end behavior of core features like user registration.
 
 ## 📚 Develop the Docs
 
